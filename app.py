@@ -1,13 +1,15 @@
+import json
+
 from fastapi import FastAPI, Request, Response
 from fastapi.staticfiles import StaticFiles
 
-from webpagecapture import test_webpage
+from webpagecapture import generate_webpage_screenshot
 
 webserver = FastAPI()
 webserver.mount(
-    path="/files",
-    app=StaticFiles(directory=f"/app/files/"),
-    name="files"
+    path="/screenshots",
+    app=StaticFiles(directory=f"/app/screenshots/"),
+    name="screenshots"
 )
 
 
@@ -18,15 +20,20 @@ async def root(request: Request):
         page_url = json_payload.get("page_url")
 
         if page_url is not None:
-            response_content = await test_webpage(page_url)
+            success, extra_data = await generate_webpage_screenshot(page_url)
+            if not success:
+                return Response(
+                    status_code=500,
+                    headers={"Content-Type": "application/json"},
+                    content=json.dumps({"error": f"Internal Server Error. {extra_data}"}))
             return Response(
                 status_code=200,
-                content=response_content)
+                content=extra_data)
         return Response(
             status_code=400,
             headers={"Content-Type": "application/json"},
-            content='{"error": "page_url is required"}')
+            content=json.dumps({"error": "page_url is required"}))
     return Response(
         status_code=400,
         headers={"Content-Type": "application/json"},
-        content='{"error": "Invalid request"}')
+        content=json.dumps({"error": "Invalid request"}))

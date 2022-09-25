@@ -1,4 +1,4 @@
-FROM python:3.10.5
+FROM python:3.10.7-alpine3.16
 
 WORKDIR /app/
 
@@ -19,6 +19,5 @@ WORKDIR /root/
 RUN cp -R .cache/ms-playwright /app/.cache/ms-playwright
 
 WORKDIR /app/
-
 
 CMD uvicorn app:webserver --host 0.0.0.0 --port $PORT

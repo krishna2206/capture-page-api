@@ -1,12 +1,18 @@
+import uuid
 from playwright.async_api import async_playwright
 
 
-async def test_webpage(page_url):
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
-        await page.goto(page_url)
-        screenshot_url = await page.screenshot(path="files/screenshot.png", full_page=True)
-        # content = await page.content()
-        await browser.close()
-        return screenshot_url
+async def generate_webpage_screenshot(page_url):
+    async with async_playwright() as playwright:
+        try:
+            browser = await playwright.chromium.launch(headless=True)
+            page = await browser.new_page()
+            await page.goto(page_url)
+            filename = f"{str(uuid.uuid4())}.png"
+            await page.screenshot(path=f"files/{filename}", full_page=True)
+        except Exception as error:
+            return False, f"{type(error).__name__}: {error}"
+        else:
+            return True, filename
+        finally:
+            await browser.close()

@@ -1,8 +1,14 @@
 from fastapi import FastAPI, Request, Response
+from fastapi.staticfiles import StaticFiles
 
 from webpagecapture import test_webpage
 
 webserver = FastAPI()
+webserver.mount(
+    path="/files",
+    app=StaticFiles(directory=f"/app/files/"),
+    name="files"
+)
 
 
 @webserver.post("/")

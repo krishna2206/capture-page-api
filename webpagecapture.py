@@ -6,6 +6,7 @@ async def test_webpage(page_url):
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
         await page.goto(page_url)
-        content = await page.content()
+        screenshot_url = await page.screenshot(path="files/screenshot.png")
+        # content = await page.content()
         await browser.close()
-        return content
+        return screenshot_url

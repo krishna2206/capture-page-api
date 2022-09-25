@@ -12,20 +12,13 @@ RUN playwright install
 
 RUN playwright install-deps
 
-# RUN mkdir /app/.cache
-
-RUN ls -la /app
-
 WORKDIR /root/
 
-RUN ls -la .
-
-RUN ls -la .cache/
+# COPY .cache/ms-playwright /app/.cache/ms-playwright
 
 RUN cp -R .cache/ms-playwright /app/.cache/ms-playwright
 
 WORKDIR /app/
 
-# COPY .cache/ms-playwright /app/.cache/ms-playwright
 
 CMD uvicorn app:webserver --host 0.0.0.0 --port $PORT

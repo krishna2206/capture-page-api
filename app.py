@@ -12,9 +12,10 @@ async def root(request: Request):
         page_url = json_payload.get("page_url")
 
         if page_url is not None:
+            response_content = await test_webpage(page_url)
             return Response(
                 status_code=200,
-                content=test_webpage(page_url))
+                content=response_content)
         return Response(
             status_code=400,
             headers={"Content-Type": "application/json"},

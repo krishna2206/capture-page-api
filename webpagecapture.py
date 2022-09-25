@@ -1,11 +1,11 @@
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 
 
-def test_webpage(page_url):
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        page = browser.new_page()
-        page.goto(page_url)
-        content = page.content()
-        browser.close()
+async def test_webpage(page_url):
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+        await page.goto(page_url)
+        content = await page.content()
+        await browser.close()
         return content

@@ -20,6 +20,8 @@ RUN ls -la .
 
 RUN ls -la .cache/
 
-COPY .cache/ms-playwright /app/.cache/ms-playwright
+RUN cp -R .cache/ms-playwright /app/.cache/ms-playwright
+
+# COPY .cache/ms-playwright /app/.cache/ms-playwright
 
 CMD uvicorn app:webserver --host 0.0.0.0 --port $PORT

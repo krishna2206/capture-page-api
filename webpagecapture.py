@@ -22,9 +22,11 @@ async def generate_webpage_screenshot(page_url):
             string_io = BytesIO(full_page_image_buffer)
             full_page_image = Image.open(string_io)
             parts = math.ceil(full_page_image.height / 720)
-            height_per_part = full_page_image.height / parts
+            height_per_part = math.ceil(full_page_image.height / parts)
             part_page_image_buffers = []
             for part in range(parts):
+                if part == parts - 1:
+                    height_per_part = full_page_image.height - (height_per_part * part)
                 part_page_image_buffer = await page.screenshot(
                     clip={
                         "x": 0,

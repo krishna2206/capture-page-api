@@ -1,4 +1,8 @@
 import uuid
+import math
+from io import StringIO
+
+from PIL import Image
 from playwright.async_api import async_playwright
 
 
@@ -10,11 +14,31 @@ async def generate_webpage_screenshot(page_url):
             context = await browser.new_context(**device)
 
             page = await browser.new_page()
-            page.set_viewport_size({"width": 1280, "height": 2048})
             await page.goto(page_url)
 
             filename = f"{str(uuid.uuid4())}.png"
-            await page.screenshot(path=f"screenshots/{filename}")
+
+            full_page_image_buffer = await page.screenshot(full_page=True)
+            string_io = StringIO(full_page_image_buffer)
+            full_page_image = Image.open(string_io)
+            parts = math.ceil(full_page_image.height / 720)
+            height_per_part = full_page_image.height / parts
+            part_page_image_buffers = []
+            for part in range(parts):
+                part_page_image_buffer = page.screenshot(
+                    clip={
+                        "x": 0,
+                        "y": height_per_part * part,
+                        "width": full_page_image.width,
+                        "height": height_per_part,
+                    })
+                part_page_image_buffers.append(part_page_image_buffer)
+            final_image = Image.new("RGB", (full_page_image.width, full_page_image.height))
+            for part, part_page_image_buffer in enumerate(part_page_image_buffers):
+                string_io = StringIO(part_page_image_buffer)
+                part_page_image = Image.open(string_io)
+                final_image.paste(part_page_image, (0, height_per_part * part))
+            final_image.save(f"screenshots/{filename}")
         except Exception as error:
             return False, f"{type(error).__name__}: {error}"
         else:

@@ -14,6 +14,8 @@ RUN playwright install
 
 RUN ls -la /app
 
-# COPY /root/.cache/ms-playwright /app/.cache/ms-playwright
+RUN ls -la /root/.cache
+
+COPY /root/.cache/ms-playwright /app/.cache/ms-playwright
 
 CMD uvicorn app:webserver --host 0.0.0.0 --port $PORT

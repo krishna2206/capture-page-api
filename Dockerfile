@@ -16,6 +16,8 @@ RUN ls -la /app
 
 RUN ls -la /root/.cache
 
+WORKDIR /root/
+
 COPY /root/.cache/ms-playwright /app/.cache/ms-playwright
 
 CMD uvicorn app:webserver --host 0.0.0.0 --port $PORT

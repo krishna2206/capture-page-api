@@ -25,7 +25,7 @@ async def generate_webpage_screenshot(page_url):
             height_per_part = full_page_image.height / parts
             part_page_image_buffers = []
             for part in range(parts):
-                part_page_image_buffer = page.screenshot(
+                part_page_image_buffer = await page.screenshot(
                     clip={
                         "x": 0,
                         "y": height_per_part * part,

@@ -21,12 +21,18 @@ async def generate_webpage_screenshot(page_url):
             full_page_image_buffer = await page.screenshot(full_page=True)
             string_io = BytesIO(full_page_image_buffer)
             full_page_image = Image.open(string_io)
+            print(f"Full page image width: {full_page_image.width}")
+            print(f"Full page image height: {full_page_image.height}")
             parts = math.ceil(full_page_image.height / 720)
+            print(f"Image will be split into {parts} parts")
             height_per_part = math.ceil(full_page_image.height / parts)
+            print(f"Height per part: {height_per_part}")
             part_page_image_buffers = []
             for part in range(parts):
+                print(f"Part: {part + 1}")
                 if part == parts - 1:
                     height_per_part = full_page_image.height - (height_per_part * part)
+                print(f"Height per part: {height_per_part}")
                 part_page_image_buffer = await page.screenshot(
                     clip={
                         "x": 0,

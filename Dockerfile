@@ -4,6 +4,8 @@ WORKDIR /app/
 
 COPY . /app/
 
+RUN mkdir /app/.cache
+
 RUN pip install -r ./requirements.txt
 
 RUN playwright install

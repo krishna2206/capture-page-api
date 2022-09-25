@@ -1,4 +1,5 @@
 import json
+from urllib.parse import unquote
 
 from fastapi import FastAPI, Request, Response
 from fastapi.staticfiles import StaticFiles
@@ -20,6 +21,7 @@ async def root(request: Request):
         page_url = json_payload.get("page_url")
 
         if page_url is not None:
+            page_url = unquote(page_url)
             success, extra_data = await generate_webpage_screenshot(page_url)
             if not success:
                 return Response(

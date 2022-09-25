@@ -10,11 +10,11 @@ async def generate_webpage_screenshot(page_url):
             context = await browser.new_context(**device)
 
             page = await browser.new_page()
-            page.set_viewport_size({"width": 1280, "height": 720})
+            page.set_viewport_size({"width": 1280, "height": 2048})
             await page.goto(page_url)
 
             filename = f"{str(uuid.uuid4())}.png"
-            await page.screenshot(path=f"screenshots/{filename}", full_page=True)
+            await page.screenshot(path=f"screenshots/{filename}")
         except Exception as error:
             return False, f"{type(error).__name__}: {error}"
         else:

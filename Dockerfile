@@ -8,8 +8,8 @@ RUN pip install -r ./requirements.txt
 
 RUN playwright install
 
-ENV PORT=6969
+RUN mkdir /app/.cache
 
-EXPOSE $PORT
+COPY /root/.cache/ms-playwright /app/.cache/ms-playwright
 
 CMD uvicorn app:webserver --host 0.0.0.0 --port $PORT

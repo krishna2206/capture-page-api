@@ -18,7 +18,7 @@ WORKDIR /root/
 
 RUN ls -la .
 
-RUN ls -la ./cache
+RUN ls -la .cache/
 
 COPY .cache/ms-playwright /app/.cache/ms-playwright
 

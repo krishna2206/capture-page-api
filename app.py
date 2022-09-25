@@ -28,7 +28,7 @@ async def root(request: Request):
                     content=json.dumps({"error": f"Internal Server Error. {extra_data}"}))
             return Response(
                 status_code=200,
-                content=extra_data)
+                content=json.dumps({"screenshot_url": f"{request.url}/screenshots/{extra_data}"}))
         return Response(
             status_code=400,
             headers={"Content-Type": "application/json"},

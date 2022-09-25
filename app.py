@@ -26,9 +26,11 @@ async def root(request: Request):
                     status_code=500,
                     headers={"Content-Type": "application/json"},
                     content=json.dumps({"error": f"Internal Server Error. {extra_data}"}))
+            screenshot_url = request.url + f"screenshots/{extra_data}"
+            screenshot_url = screenshot_url.replace("http", "https")
             return Response(
                 status_code=200,
-                content=json.dumps({"screenshot_url": f"{request.url}/screenshots/{extra_data}"}))
+                content=json.dumps({"screenshot_url": screenshot_url}))
         return Response(
             status_code=400,
             headers={"Content-Type": "application/json"},

@@ -9,7 +9,7 @@ async def generate_webpage_screenshot(page_url):
             page = await browser.new_page()
             await page.goto(page_url)
             filename = f"{str(uuid.uuid4())}.png"
-            await page.screenshot(path=f"files/{filename}", full_page=True)
+            await page.screenshot(path=f"screenshots/{filename}", full_page=True)
         except Exception as error:
             return False, f"{type(error).__name__}: {error}"
         else:

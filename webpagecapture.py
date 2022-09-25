@@ -40,6 +40,7 @@ async def generate_webpage_screenshot(page_url):
                 final_image.paste(part_page_image, (0, height_per_part * part))
             final_image.save(f"screenshots/{filename}")
         except Exception as error:
+            print(f"{type(error).__name__}: {error}")
             return False, f"{type(error).__name__}: {error}"
         else:
             return True, filename

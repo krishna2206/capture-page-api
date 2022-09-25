@@ -14,7 +14,7 @@ RUN playwright install
 
 RUN ls -la /app
 
-RUN ls -la .cache/
+RUN ls -la .
 
 COPY /root/.cache/ms-playwright /app/.cache/ms-playwright
 

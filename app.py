@@ -23,11 +23,13 @@ async def root(request: Request):
         if page_url is not None:
             page_url = unquote(page_url)
             success, extra_data = await generate_webpage_screenshot(page_url)
+
             if not success:
                 return Response(
                     status_code=500,
                     headers={"Content-Type": "application/json"},
                     content=json.dumps({"error": f"Internal Server Error. {extra_data}"}))
+
             screenshot_url = str(request.url) + f"screenshots/{extra_data}"
             screenshot_url = screenshot_url.replace("http", "https")
             return Response(

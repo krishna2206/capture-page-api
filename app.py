@@ -14,8 +14,13 @@ webserver.mount(
 )
 
 
+@webserver.get("/")
+async def hello_world():
+    return {"message": "Hello World"}
+
+
 @webserver.post("/")
-async def root(request: Request):
+async def get_page_screenshot(request: Request):
     if request.headers.get("Content-Type") == "application/json":
         json_payload = await request.json()
         page_url = json_payload.get("page_url")

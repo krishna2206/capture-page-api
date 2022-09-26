@@ -18,7 +18,13 @@ async def generate_webpage_screenshot(page_url):
 
             filename = f"{str(uuid.uuid4())}.png"
 
-            full_page_image_buffer = await page.screenshot(full_page=True)
+            full_page_image_buffer = await page.screenshot(path=f"screenshots/{filename}", full_page=True)
+            string_io = BytesIO(full_page_image_buffer)
+            full_page_image = Image.open(string_io)
+            print(f"Full page image width: {full_page_image.width}")
+            print(f"Full page image height: {full_page_image.height}")
+
+            """
             string_io = BytesIO(full_page_image_buffer)
             full_page_image = Image.open(string_io)
             print(f"Full page image width: {full_page_image.width}")
@@ -46,6 +52,7 @@ async def generate_webpage_screenshot(page_url):
                 part_page_image = Image.open(string_io)
                 final_image.paste(part_page_image, (0, height_per_part * part))
             final_image.save(f"screenshots/{filename}")
+            """
         except Exception as error:
             print(f"{type(error).__name__}: {error}")
             return False, f"{type(error).__name__}: {error}"

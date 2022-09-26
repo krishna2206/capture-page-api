@@ -9,9 +9,7 @@ from playwright.async_api import async_playwright
 async def generate_webpage_screenshot(page_url):
     async with async_playwright() as playwright:
         try:
-            device = playwright.devices["Pixel 4"]
             browser = await playwright.chromium.launch(headless=True)
-            context = await browser.new_context(**device)
 
             page = await browser.new_page()
             await page.goto(page_url)

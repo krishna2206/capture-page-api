@@ -35,8 +35,8 @@ async def get_page_screenshot(request: Request):
                     headers={"Content-Type": "application/json"},
                     content=json.dumps({"error": f"Internal Server Error. {extra_data}"}))
 
-            screenshot_url = str(request.url) + f"screenshots/{extra_data}"
-            screenshot_url = screenshot_url.replace("http", "https")
+            base_url = str(request.url).replace("http", "https") if request.url.scheme == "http" else str(request.url)
+            screenshot_url = base_url + f"screenshots/{extra_data}"
             return Response(
                 status_code=200,
                 content=json.dumps({"screenshot_url": screenshot_url}))

@@ -20,4 +20,6 @@ RUN cp -R .cache/ms-playwright /app/.cache/ms-playwright
 
 WORKDIR /app/
 
+EXPOSE $PORT
+
 CMD uvicorn app:webserver --host 0.0.0.0 --port $PORT

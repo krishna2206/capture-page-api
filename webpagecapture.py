@@ -8,6 +8,9 @@ async def generate_webpage_screenshot(page_url, param_device=None):
         try:
             if param_device is not None:
                 device = playwright.devices[param_device]
+
+                print(f"Using device: {device}")
+
                 if device["defaultBrowserType"] == "firefox":
                     browser = await playwright.firefox.launch(headless=True)
                 elif device["defaultBrowserType"] == "webkit":

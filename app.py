@@ -27,7 +27,12 @@ async def get_page_screenshot(request: Request):
 
         if page_url is not None:
             page_url = unquote(page_url)
-            success, extra_data = await generate_webpage_screenshot(page_url)
+
+            device = json_payload.get("device")
+            if device is not None:
+                success, extra_data = await generate_webpage_screenshot(page_url, device)
+            else:
+                success, extra_data = await generate_webpage_screenshot(page_url)
 
             if not success:
                 return Response(

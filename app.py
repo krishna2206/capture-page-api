@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from webpagecapture import generate_webpage_screenshot
 
+
 webserver = FastAPI()
 webserver.mount(
     path="/screenshots",

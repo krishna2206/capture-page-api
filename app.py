@@ -1,3 +1,4 @@
+import os
 import json
 from urllib.parse import unquote
 
@@ -9,7 +10,7 @@ from webpagecapture import generate_webpage_screenshot
 webserver = FastAPI()
 webserver.mount(
     path="/screenshots",
-    app=StaticFiles(directory=f"/app/screenshots/"),
+    app=StaticFiles(directory=f"{os.getcwd()}/screenshots/"),
     name="screenshots"
 )
 

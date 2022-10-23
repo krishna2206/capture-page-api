@@ -23,7 +23,7 @@ async def generate_webpage_screenshot(page_url, param_device=None):
                 page = await browser_context.new_page()
             else:
                 page = await browser.new_page()
-            await page.goto(page_url, wait_until="networkidle")
+            await page.goto(page_url)
 
             filename = f"{str(uuid.uuid4())}.png"
             await page.screenshot(path=f"screenshots/{filename}", full_page=True)
